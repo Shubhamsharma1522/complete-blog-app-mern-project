@@ -1,12 +1,15 @@
 import React from "react";
 import { useState, useContext } from "react";
 import { Box, TextField, Button, styled, Typography } from "@mui/material";
-import imageURL from "../images/BLOG APP.png";
+// import imageURL from "../images/BLOG APP.png";
 
 import { API } from "../../service/api";
 import { useNavigate } from "react-router-dom";
 
 import { DataContext } from "../../context/DataProvider";
+
+const imageURL =
+  "https://res.cloudinary.com/dd815juww/image/upload/v1705214795/BLOG_APP__4_-removebg-preview_kapozk.png";
 
 const Component = styled(Box)`
   width: 400px;
