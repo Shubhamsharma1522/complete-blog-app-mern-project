@@ -2,7 +2,7 @@ import { Box, styled, Typography, Link } from "@mui/material";
 import { GitHub, Instagram, Email } from "@mui/icons-material";
 
 const Banner = styled(Box)`
-  background-image: url(https://res.cloudinary.com/dd815juww/image/upload/v1705048323/about_pem5bf.jpg);
+  background-image: url(https://res.cloudinary.com/dd815juww/image/upload/v1704996360/samples/cup-on-a-table.jpg);
   width: 100%;
   height: 50vh;
   background-position: left 0px;

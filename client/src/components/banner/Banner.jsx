@@ -3,8 +3,8 @@ import { Box, Typography, styled } from "@mui/material";
 
 const Image = styled(Box)`
   width: 100%;
-  background: url(https://images.pexels.com/photos/1714208/pexels-photo-1714208.jpeg)
-    center/55% repeat-x #000;
+  background: url(https://res.cloudinary.com/dd815juww/image/upload/v1705210597/Space_25180_ebrk1c.png)
+    center/55% no-repeat #000;
   height: 50vh;
   display: flex;
   flex-direction: column;
