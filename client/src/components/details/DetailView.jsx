@@ -11,21 +11,22 @@ import { DataContext } from "../../context/DataProvider";
 // components
 import Comments from "./comments/Comments";
 
-const Container = styled(Box)(({ theme }) => ({
-  margin: "50px 100px",
-  [theme.breakpoints.down("md")]: {
-    margin: 0,
-  },
-}));
+// const Container = styled(Box)(({ theme }) => ({
+//   margin: "50px 100px",
+//   [theme.breakpoints.down("md")]: {
+//     margin: 0,
+//   },
+// }));
 
-const Image = styled("img")({
-  border: "1px solid black",
-  width: "100%",
-  height: "50vh",
-  objectFit: "cover",
-});
+// const Image = styled("img")({
+//   border: "1px solid black",
+//   width: "100%",
+//   height: "50vh",
+//   objectFit: "cover",
+// });
 
 const EditIcon = styled(Edit)`
+  size: large;
   margin: 5px;
   padding: 5px;
   border: 1px solid #878787;
@@ -39,18 +40,18 @@ const DeleteIcon = styled(Delete)`
   border-radius: 10px;
 `;
 
-const Heading = styled(Typography)`
-  background: orange;
-  font-size: 38px;
-  font-weight: 600;
-  text-align: center;
-  margin: 50px 0 10px 0;
-  word-break: break-word;
-`;
+// const Heading = styled(Typography)`
+//   background: orange;
+//   font-size: 38px;
+//   font-weight: 600;
+//   text-align: center;
+//   margin: 50px 0 10px 0;
+//   word-break: break-word;
+// `;
 
 const Author = styled(Box)(({ theme }) => ({
-  backgroundColor: "black",
-  color: "#878787",
+  backgroundColor: "gray",
+  color: "#fff",
   margin: "20px 0",
   display: "flex",
   [theme.breakpoints.down("sm")]: {
@@ -59,7 +60,7 @@ const Author = styled(Box)(({ theme }) => ({
 }));
 
 const Description = styled(Typography)`
-  border: 1px solid black;
+  // border: 1px solid black;
   background: white;
   word-break: break-word;
 `;
@@ -89,7 +90,7 @@ const DetailView = () => {
     };
 
     fetchData();
-  }, []);
+  }, [id]);
 
   const deleteBlog = async () => {
     try {
@@ -103,40 +104,90 @@ const DetailView = () => {
   };
 
   return (
-    <Container>
-      <Image src={post.picture || url} alt="post" />
-      <Box style={{ float: "right" }}>
-        {account.username === post.username && (
-          <>
-            <Link to={`/update/${post._id}`}>
-              <EditIcon color="primary" />
-            </Link>
-            <DeleteIcon onClick={() => deleteBlog()} color="error" />
-          </>
-        )}
-      </Box>
-      <Heading>{post.title}</Heading>
+    // <Container>
+    //   <Image src={post.picture || url} alt="post" />
+    //   <Box style={{ float: "right" }}>
+    //     {account.username === post.username && (
+    //       <>
+    //         <Link to={`/update/${post._id}`}>
+    //           <EditIcon color="primary" />
+    //         </Link>
+    //         <DeleteIcon onClick={() => deleteBlog()} color="error" />
+    //       </>
+    //     )}
+    //   </Box>
+    //   <Heading>{post.title}</Heading>
 
-      <Author>
-        <Link
-          to={`/?username=${post.username}`}
-          style={{ textDecoration: "none", color: "inherit" }}
-        >
-          <Typography>
-            Author:{" "}
-            <Box component="span" style={{ fontWeight: 600 }}>
-              {post.username}
-            </Box>
-          </Typography>
-        </Link>
-        <Typography style={{ marginLeft: "auto" }}>
-          {new Date(post.createdDate).toDateString()}
-        </Typography>
-      </Author>
+    //   <Author>
+    //     <Link
+    //       to={`/?username=${post.username}`}
+    //       style={{ textDecoration: "none", color: "inherit" }}
+    //     >
+    //       <Typography>
+    //         Author:{" "}
+    //         <Box component="span" style={{ fontWeight: 600 }}>
+    //           {post.username}
+    //         </Box>
+    //       </Typography>
+    //     </Link>
+    //     <Typography style={{ marginLeft: "auto" }}>
+    //       {new Date(post.createdDate).toDateString()}
+    //     </Typography>
+    //   </Author>
 
-      <Description>{post.description}</Description>
-      <Comments post={post} />
-    </Container>
+    //   <Description>{post.description}</Description>
+    //   <Comments post={post} />
+    // </Container>
+
+    <>
+      <div className="py-16 bg-white">
+        <div className="container m-auto px-6 text-gray-600 md:px-12 xl:px-6">
+          <div className="space-y-6 md:space-y-0 md:flex md:gap-6 lg:items-center lg:gap-12">
+            <div className="md:5/12 lg:w-5/12">
+              <img src={post.picture || url} alt="post" />
+              <Box style={{ float: "right" }}>
+                {account.username === post.username && (
+                  <>
+                    <Link to={`/update/${post._id}`}>
+                      <EditIcon sx={{ fontSize: 30 }} color="primary" />
+                    </Link>
+                    <DeleteIcon
+                      sx={{ fontSize: 30 }}
+                      onClick={() => deleteBlog()}
+                      color="error"
+                    />
+                  </>
+                )}
+              </Box>
+            </div>
+            <div className="md:7/12 lg:w-6/12">
+              <h2 className="text-2xl text-gray-900 font-bold md:text-4xl">
+                {post.title}
+              </h2>
+              <Author>
+                <Link
+                  to={`/?username=${post.username}`}
+                  style={{ textDecoration: "none", color: "inherit" }}
+                >
+                  <Typography>
+                    Author:{" "}
+                    <Box component="span" style={{ fontWeight: 600 }}>
+                      {post.username}
+                    </Box>
+                  </Typography>
+                </Link>
+                <Typography style={{ marginLeft: "auto" }}>
+                  {new Date(post.createdDate).toDateString()}
+                </Typography>
+              </Author>
+
+              <Description>{post.description}</Description>
+            </div>
+          </div>
+        </div>
+        <Comments post={post} />
+      </div>
+    </>
   );
 };
 

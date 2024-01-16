@@ -71,6 +71,8 @@
 // export default About;
 
 import React from "react";
+import { Link } from "@mui/material";
+import { GitHub, Instagram, Email } from "@mui/icons-material";
 
 export default function About() {
   return (
@@ -85,18 +87,64 @@ export default function About() {
           </div>
           <div className="md:7/12 lg:w-6/12">
             <h2 className="text-2xl text-gray-900 font-bold md:text-4xl">
-              React development is carried out by passionate developers
+              I'm a Full Stack Developer based in India. I've built websites,
+              desktop applications and corporate software.
             </h2>
             <p className="mt-6 text-gray-600">
-              Lorem ipsum dolor, sit amet consectetur adipisicing elit. Eum
-              omnis voluptatem accusantium nemo perspiciatis delectus atque
-              autem! Voluptatum tenetur beatae unde aperiam, repellat expedita
-              consequatur! Officiis id consequatur atque doloremque!
+              Welcome to [My Blog App], your go-to destination for the latest
+              and greatest in fashion, tech, music, movies, and sports! Our
+              diverse range of content is curated to keep you informed and
+              entertained across these dynamic realms. In the Fashion section,
+              stay ahead of the trends with expert insights, style guides, and
+              exclusive interviews with industry influencers. Tech enthusiasts
+              will find a treasure trove of gadget reviews, software updates,
+              and thought-provoking discussions on the ever-evolving tech
+              landscape. Immerse yourself in the world of Music, where we
+              explore new releases, hidden gems, and in-depth artist features.
+              Our Movies section is your ticket to cinematic adventures,
+              offering reviews, previews, and behind-the-scenes glimpses into
+              the world of filmmaking. For sports enthusiasts, dive into the
+              Sports blog, where we cover everything from game highlights to
+              athlete profiles, ensuring you never miss a beat on the field.
             </p>
             <p className="mt-4 text-gray-600">
-              Nobis minus voluptatibus pariatur dignissimos libero quaerat iure
-              expedita at? Asperiores nemo possimus nesciunt dicta veniam
-              aspernatur quam mollitia.
+              I'm a Full Stack Developer based in India. I've built websites,
+              desktop applications and corporate software. <br />
+              If you are interested, you can view some of my favorite projects
+              here
+              <div component="span" style={{ marginLeft: 5 }}>
+                <Link
+                  href="https://github.com/Shubhamsharma1522"
+                  color="inherit"
+                  target="_blank"
+                >
+                  <GitHub />
+                </Link>
+              </div>
+              <br />
+              Connect with us beyond the blog! Follow us on Instagram
+              <div component="span" style={{ marginLeft: 5 }}>
+                <Link
+                  href="https://www.instagram.com/shubham_sharma.er/"
+                  color="inherit"
+                  target="_blank"
+                >
+                  <Instagram />
+                </Link>
+                or send me an Email
+                <Link
+                  href="mailto:shubhamsharma.in1522@gmail.com?Subject=This is a subject"
+                  target="_blank"
+                  color="inherit"
+                >
+                  <Email />
+                </Link>
+              </div>
+              <br />
+              for daily updates, behind-the-scenes content, and exclusive
+              visuals. Join us on this journey as we explore, discuss, and
+              celebrate the vibrant tapestry of fashion, tech, music, movies,
+              and sports!
             </p>
           </div>
         </div>

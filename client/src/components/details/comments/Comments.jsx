@@ -9,7 +9,10 @@ import { API } from "../../../service/api";
 import Comment from "./Comment";
 
 const Container = styled(Box)`
-  margin-top: 100px;
+  border: 1px solid black;
+  align-items: center;
+  margin: 100px;
+  padding: 5px;
   display: flex;
 `;
 
