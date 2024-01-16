@@ -1,11 +1,11 @@
 import React from "react";
-import { Box, Typography, styled } from "@mui/material";
+import { Box, Grid, Typography, styled } from "@mui/material";
 
 const Image = styled(Box)`
   width: 100%;
   background: url(https://res.cloudinary.com/dd815juww/image/upload/v1705210597/Space_25180_ebrk1c.png)
-    center/55% no-repeat #000;
-  height: 50vh;
+    center/100% no-repeat #fff;
+  height: 40vh;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -30,12 +30,20 @@ const SubSubHeading = styled(Typography)`
 
 const Banner = () => {
   return (
-    <Image>
-      <Heading>BLOG</Heading>
-      <SubHeading>Write Your Own Thoughts</SubHeading>
-      <br />
-      <SubSubHeading>The Only Thing That Describes Your Thoughts</SubSubHeading>
-    </Image>
+    <Grid container>
+      {
+        <Grid item lg={12} sm={12} xs={12}>
+          <Image>
+            <Heading>BLOG</Heading>
+            <SubHeading>Write Your Own Thoughts</SubHeading>
+            <br />
+            <SubSubHeading>
+              The Only Thing That Describes Your Thoughts
+            </SubSubHeading>
+          </Image>
+        </Grid>
+      }
+    </Grid>
   );
 };
 

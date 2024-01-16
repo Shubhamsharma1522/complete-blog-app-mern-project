@@ -11,7 +11,7 @@ import Comment from "./Comment";
 const Container = styled(Box)`
   border: 1px solid black;
   align-items: center;
-  margin: 100px;
+  margin: 30px;
   padding: 5px;
   display: flex;
 `;

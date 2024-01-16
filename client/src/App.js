@@ -22,12 +22,14 @@ import DetailView from "./components/details/DetailView";
 import Update from "./components/create/Update";
 import About from "./components/about/About";
 import Contact from "./components/contact/Contact";
+import Footer from "./components/Footer/Footer";
 
 const PrivateRoute = ({ isAuthenticated, ...props }) => {
   return isAuthenticated ? (
     <>
       <Header />
       <Outlet />
+      <Footer />
     </>
   ) : (
     <Navigate replace to="/login" />

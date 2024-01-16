@@ -14,12 +14,11 @@ import { categories } from "../../constants/data";
 const StyledTable = styled(Table)`
   // border: 2px solid rgba(224, 224, 224, 1);
   border: 2px solid white;
-  background: #000;
+  background: white;
 `;
 
 const StyledButton = styled(Button)`
   margin: 10px;
-  width: 25%;
   color: black;
   border: 1px solid black;
   border-radius: 10px;
@@ -29,12 +28,11 @@ const StyledButton = styled(Button)`
 
 const StyledLink = styled(Link)`
   text-decoration: none;
-  color: #fff;
+  color: #000;
 `;
 const StyledLinkCategory = styled(Link)`
-  width: 40%;
   text-decoration: none;
-  color: #fff;
+  color: #000;
   padding: 8px;
   margin-top: 7px;
   margin-left: 10px;
@@ -59,11 +57,16 @@ const Categories = () => {
 
       <StyledTable>
         <TableBody>
-          <StyledLinkCategory to="/">All Categories</StyledLinkCategory>
+          <StyledLinkCategory className="hover:text-red-700" to="/">
+            All Categories
+          </StyledLinkCategory>
           {categories.map((category) => (
             <TableCell key={category.id}>
               <TableRow>
-                <StyledLink to={`/?category=${category.type}`}>
+                <StyledLink
+                  className=" hover:text-red-700"
+                  to={`/?category=${category.type}`}
+                >
                   {category.type}
                 </StyledLink>
               </TableRow>
