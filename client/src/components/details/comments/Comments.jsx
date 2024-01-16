@@ -90,7 +90,7 @@ export const Comments = ({ post }) => {
         />
         <Button
           variant="contained"
-          color="primary"
+          color="error"
           size="medium"
           style={{ height: 40 }}
           onClick={(e) => addComment(e)}

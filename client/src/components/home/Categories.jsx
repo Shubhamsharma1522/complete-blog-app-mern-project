@@ -5,7 +5,6 @@ import {
   Table,
   TableBody,
   TableCell,
-  TableHead,
   TableRow,
   styled,
 } from "@mui/material";
@@ -13,27 +12,33 @@ import {
 import { categories } from "../../constants/data";
 
 const StyledTable = styled(Table)`
-  border: 2px solid rgba(224, 224, 224, 1);
-  background: #fff;
+  // border: 2px solid rgba(224, 224, 224, 1);
+  border: 2px solid white;
+  background: #000;
 `;
 
 const StyledButton = styled(Button)`
-  margin: 20px;
-  width: 85%;
-  color: #fff;
-  border: 2px solid #fac898;
-  border-radius: 20px;
+  margin: 10px;
+  width: 25%;
+  color: black;
+  border: 1px solid black;
+  border-radius: 10px;
   text-transform: none;
-  background: #fb641b;
+  background: #fff;
 `;
 
 const StyledLink = styled(Link)`
   text-decoration: none;
-  color: #000;
+  color: #fff;
 `;
 const StyledLinkCategory = styled(Link)`
+  width: 40%;
   text-decoration: none;
-  color: #ff0000;
+  color: #fff;
+  padding: 8px;
+  margin-top: 7px;
+  margin-left: 10px;
+  display: flex;
 `;
 
 const Categories = () => {
@@ -43,26 +48,26 @@ const Categories = () => {
   return (
     <>
       <StyledLink to={`/create?category=${category || ""}`}>
-        <StyledButton variant="contained">create blog</StyledButton>
+        <StyledButton
+          style={{ float: "right" }}
+          variant="contained"
+          color="error"
+        >
+          Create Blog
+        </StyledButton>
       </StyledLink>
 
       <StyledTable>
-        <TableHead>
-          <TableRow>
-            <TableCell>
-              <StyledLinkCategory to="/">All Categories</StyledLinkCategory>
-            </TableCell>
-          </TableRow>
-        </TableHead>
         <TableBody>
+          <StyledLinkCategory to="/">All Categories</StyledLinkCategory>
           {categories.map((category) => (
-            <TableRow key={category.id}>
-              <TableCell>
+            <TableCell key={category.id}>
+              <TableRow>
                 <StyledLink to={`/?category=${category.type}`}>
                   {category.type}
                 </StyledLink>
-              </TableCell>
-            </TableRow>
+              </TableRow>
+            </TableCell>
           ))}
         </TableBody>
       </StyledTable>

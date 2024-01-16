@@ -49,6 +49,15 @@ const Textarea = styled(TextareaAutosize)`
   }
 `;
 
+const StyledButton = styled(Button)`
+  width: 15%;
+  color: black;
+  border: 1px solid black;
+  border-radius: 10px;
+  text-transform: none;
+  background: #fff;
+`;
+
 const initialPost = {
   title: "",
   description: "",
@@ -142,9 +151,13 @@ const CreatePost = () => {
           name="title"
           placeholder="Title"
         />
-        <Button onClick={() => savePost()} variant="contained" color="primary">
+        <StyledButton
+          onClick={() => savePost()}
+          variant="contained"
+          color="error"
+        >
           Publish
-        </Button>
+        </StyledButton>
       </StyledFormControl>
 
       <Textarea

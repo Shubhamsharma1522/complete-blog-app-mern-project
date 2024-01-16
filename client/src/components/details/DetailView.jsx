@@ -19,6 +19,7 @@ const Container = styled(Box)(({ theme }) => ({
 }));
 
 const Image = styled("img")({
+  border: "1px solid black",
   width: "100%",
   height: "50vh",
   objectFit: "cover",
@@ -39,6 +40,7 @@ const DeleteIcon = styled(Delete)`
 `;
 
 const Heading = styled(Typography)`
+  background: orange;
   font-size: 38px;
   font-weight: 600;
   text-align: center;
@@ -47,6 +49,7 @@ const Heading = styled(Typography)`
 `;
 
 const Author = styled(Box)(({ theme }) => ({
+  backgroundColor: "black",
   color: "#878787",
   margin: "20px 0",
   display: "flex",
@@ -56,6 +59,8 @@ const Author = styled(Box)(({ theme }) => ({
 }));
 
 const Description = styled(Typography)`
+  border: 1px solid black;
+  background: white;
   word-break: break-word;
 `;
 

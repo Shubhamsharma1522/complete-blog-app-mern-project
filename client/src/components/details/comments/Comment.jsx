@@ -13,6 +13,7 @@ const Component = styled(Box)`
 `;
 
 const Container = styled(Box)`
+  border: outset;
   display: flex;
   margin-bottom: 5px;
 `;

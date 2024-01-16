@@ -33,6 +33,7 @@ const Banner = () => {
     <Image>
       <Heading>BLOG</Heading>
       <SubHeading>Write Your Own Thoughts</SubHeading>
+      <br />
       <SubSubHeading>The Only Thing That Describes Your Thoughts</SubSubHeading>
     </Image>
   );

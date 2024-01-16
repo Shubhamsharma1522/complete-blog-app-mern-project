@@ -2,7 +2,8 @@ import { styled, Box, Typography } from "@mui/material";
 import { addElipsis } from "../../../utils/common-utils";
 
 const Container = styled(Box)`
-  border: 2px solid #fac898;
+  border: 1px solid black;
+  background: white;
   border-radius: 10px;
   margin: 10px;
   height: 350px;
@@ -23,12 +24,16 @@ const Image = styled("img")({
 });
 
 const Text = styled(Typography)`
+
     color: #878787
     font-size: 12px;
+    
 `;
 
 const Heading = styled(Typography)`
-  font-size: 18px;
+  border: outset orange;
+  width: 90%;
+  font-size: 16px;
   font-weight: 600;
 `;
 
@@ -46,9 +51,10 @@ const Post = ({ post }) => {
     <Container>
       <Image src={url} alt="post" />
       <Text>{post.categories}</Text>
-      <Heading>{addElipsis(post.title, 20)}</Heading>
+      <Heading>{addElipsis(post.title, 30)}</Heading>
       <Text>Author: {post.username}</Text>
-      <Details>{addElipsis(post.description, 100)}</Details>
+
+      <Details>{addElipsis(post.description, 70)}</Details>
     </Container>
   );
 };
