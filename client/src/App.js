@@ -1,6 +1,6 @@
 import { useContext, useEffect, useState } from "react";
 
-import { Box } from "@mui/material";
+import { Box, Grid } from "@mui/material";
 
 import DataProvider, { DataContext } from "./context/DataProvider";
 
@@ -27,9 +27,15 @@ import Footer from "./components/Footer/Footer";
 const PrivateRoute = ({ isAuthenticated, ...props }) => {
   return isAuthenticated ? (
     <>
-      <Header />
-      <Outlet />
-      <Footer />
+      <Grid container spacing={4}>
+        {
+          <Grid item lg={12} sm={12} xs={12}>
+            <Header />
+            <Outlet />
+            <Footer />
+          </Grid>
+        }
+      </Grid>
     </>
   ) : (
     <Navigate replace to="/login" />
