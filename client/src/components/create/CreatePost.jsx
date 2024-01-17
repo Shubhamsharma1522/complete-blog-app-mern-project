@@ -154,7 +154,7 @@ const CreatePost = () => {
         <StyledButton
           onClick={() => savePost()}
           variant="contained"
-          color="error"
+          // color="error"
         >
           Publish
         </StyledButton>

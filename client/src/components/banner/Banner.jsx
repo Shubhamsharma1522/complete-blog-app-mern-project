@@ -23,6 +23,7 @@ const SubHeading = styled(Typography)`
   background: #ffffff;
 `;
 const SubSubHeading = styled(Typography)`
+  align-item: center;
   font-size: 20px;
   background: #000;
   color: #ffffff;
@@ -30,20 +31,12 @@ const SubSubHeading = styled(Typography)`
 
 const Banner = () => {
   return (
-    <Grid container>
-      {
-        <Grid item lg={12} sm={12} xs={12}>
-          <Image>
-            <Heading>BLOG</Heading>
-            <SubHeading>Write Your Own Thoughts</SubHeading>
-            <br />
-            <SubSubHeading>
-              The Only Thing That Describes Your Thoughts
-            </SubSubHeading>
-          </Image>
-        </Grid>
-      }
-    </Grid>
+    <Image>
+      <Heading>BLOG</Heading>
+      <SubHeading>Write Your Own Thoughts</SubHeading>
+      <br />
+      <SubSubHeading>The Only Thing That Describes Your Thoughts</SubSubHeading>
+    </Image>
   );
 };
 

@@ -86,28 +86,28 @@ const Update = () => {
     };
 
     fetchData();
-  }, []);
+  }, [id]);
 
   useEffect(() => {
-    const getImage = async () => {
-      if (file) {
-        try {
-          const data = {};
-          data.name = file.name;
-          data.file = file;
+    // const getImage = async () => {
+    //   if (file) {
+    //     const data = {};
+    //     data.name = file.name;
+    //     data.file = file;
+    //     data.test = "test";
 
-          //API call
-          const response = await API.uploadFile(data);
-          post.picture = response.data;
-        } catch (error) {
-          console.log(error);
-        }
-      }
-      // getImage();
-      post.categories = location.search?.split("=")[1] || "All";
-      post.username = account.username;
-    };
-  }, [file]);
+    //     //API call
+    //     console.log(data, typeof file, "data upload file");
+    //     const response = await API.uploadFile(data);
+    //     post.picture = response.data;
+    //   }
+    // };
+
+    // getImage();
+    post.categories = location.search?.split("=")[1] || "All";
+    post.username = account.username;
+    // setFile(post?.picture || "");
+  }, [account?.username, location?.search, post]);
 
   const handleChange = (e) => {
     setPost({ ...post, [e.target.name]: e.target.value });
