@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import Drawer from "../header/Drawer";
+import Logout from "../account/Logout";
+// import Logout from "../account/Logout";
 
 const Header = () => {
   const [isDrawerOpen, setDrawerOpen] = useState(false);
@@ -76,17 +78,17 @@ const Header = () => {
           CONTACT
         </button>
       </Link>
-      <Link
-        to="/login"
+      {/* <Link
+        // to="/login"
         className="mr-5 hover:text-red-700 md:flex-col inline-flex"
+      > */}
+      <button
+        type="button"
+        className="text-red-700 hover:text-white border-b-2 border-red-700 hover:bg-red-800 focus:ring-2 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 dark:border-red-500 dark:text-red-500 dark:hover:text-white dark:hover:bg-red-600 dark:focus:ring-red-900"
       >
-        <button
-          type="button"
-          className="text-red-700 hover:text-white border-b-2 border-red-700 hover:bg-red-800 focus:ring-2 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 dark:border-red-500 dark:text-red-500 dark:hover:text-white dark:hover:bg-red-600 dark:focus:ring-red-900"
-        >
-          LOGOUT
-        </button>
-      </Link>
+        <Logout />
+      </button>
+      {/* </Link> */}
       {/* ... (repeat for other links) */}
     </nav>
   );

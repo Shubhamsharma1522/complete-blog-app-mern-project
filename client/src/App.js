@@ -1,8 +1,8 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 
 import { Box, Grid } from "@mui/material";
 
-import DataProvider from "./context/DataProvider";
+import DataProvider, { DataContext } from "./context/DataProvider";
 
 import {
   BrowserRouter,
@@ -10,7 +10,7 @@ import {
   Route,
   Navigate,
   Outlet,
-  // useNavigate,
+  useNavigate,
 } from "react-router-dom";
 
 //componenets
@@ -23,6 +23,7 @@ import Update from "./components/create/Update";
 import About from "./components/about/About";
 import Contact from "./components/contact/Contact";
 import Footer from "./components/Footer/Footer";
+import Logout from "./components/account/Logout";
 
 const PrivateRoute = ({ isAuthenticated, ...props }) => {
   return isAuthenticated ? (
