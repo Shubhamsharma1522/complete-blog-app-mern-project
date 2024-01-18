@@ -41,7 +41,7 @@ const Categories = () => {
                   <StyledLink className="hover:text-red-600" to={"/"}>
                     <button
                       type="button"
-                      className="container mx-auto flex flex-wrap p-5 flex-col md:flex-row items-center text-gray-900 hover:text-white border-x-2 border-gray-800 hover:bg-white focus:ring-2 focus:outline-none  font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2  dark:text-black dark:hover:text-black "
+                      className="container mx-auto flex flex-wrap p-5 flex-col md:flex-row items-center text-gray-900 hover:text-black border-x-2 border-gray-800 hover:bg-white focus:ring-2 focus:outline-none  font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2  dark:text-black dark:hover:text-black "
                     >
                       All categories
                     </button>
@@ -59,7 +59,7 @@ const Categories = () => {
                     >
                       <button
                         type="button"
-                        className="container mx-auto flex flex-wrap p-5 flex-col md:flex-row items-center text-gray-900 hover:text-white border-b-2 border-gray-800 hover:bg-white focus:ring-2 focus:outline-none  font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2  dark:text-black dark:hover:text-black "
+                        className="container mx-auto flex flex-wrap p-5 flex-col md:flex-row items-center text-gray-900 hover:text-black border-b-2 border-gray-800 hover:bg-white focus:ring-2 focus:outline-none  font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2  dark:text-black dark:hover:text-black "
                       >
                         {category.type}
                       </button>
