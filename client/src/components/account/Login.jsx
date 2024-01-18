@@ -1,11 +1,16 @@
-import React from "react";
-import { useState, useContext } from "react";
-import { Box, TextField, Button, styled, Typography } from "@mui/material";
-// import imageURL from "../images/BLOG APP.png";
-
+import React, { useState, useContext } from "react";
+import {
+  Box,
+  TextField,
+  Button,
+  styled,
+  Typography,
+  InputAdornment,
+  IconButton,
+} from "@mui/material";
+import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { API } from "../../service/api";
 import { useNavigate } from "react-router-dom";
-
 import { DataContext } from "../../context/DataProvider";
 
 const imageURL =
@@ -66,6 +71,7 @@ const Error = styled(Typography)`
 const Text = styled(Typography)`
   color: #878787;
   font-size: 16px;
+  text-align: center;
 `;
 
 const loginInitialValues = {
@@ -77,12 +83,14 @@ const signupInitialValues = {
   name: "",
   username: "",
   password: "",
+  confirmPassword: "",
 };
 
 const Login = ({ isUserAuthenticated }) => {
   const [account, toggleAccount] = useState("login");
   const [signup, setSignup] = useState(signupInitialValues);
   const [login, setLogin] = useState(loginInitialValues);
+  const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState("");
 
   //anywhere use in any components
@@ -99,6 +107,10 @@ const Login = ({ isUserAuthenticated }) => {
 
   const signupUser = async () => {
     try {
+      if (signup.password !== signup.confirmPassword) {
+        setError("Password do not match");
+        return;
+      }
       let response = await API.userSignup(signup);
       if (response.isSuccess) {
         setError("");
@@ -135,7 +147,6 @@ const Login = ({ isUserAuthenticated }) => {
         });
 
         isUserAuthenticated(true);
-        // setLogin(loginInitialValues); ////////////remove this///////
         navigate("/");
       }
     } catch (error) {
@@ -143,10 +154,14 @@ const Login = ({ isUserAuthenticated }) => {
     }
   };
 
+  const toggleShowPassword = () => {
+    setShowPassword((prev) => !prev);
+  };
+
   return (
     <>
       <Component
-        style={{ backgroundColor: "white" }}
+        style={{ backgroundColor: "white", marginTop: "40px" }}
         className=" items-center justify-center px-6  "
       >
         <Box>
@@ -162,11 +177,20 @@ const Login = ({ isUserAuthenticated }) => {
               />
               <TextField
                 variant="standard"
-                type="password"
+                type={showPassword ? "text" : "password"}
                 value={login.password || ""}
                 onChange={(e) => onValueChange(e)}
                 name="password"
                 label="Enter Password"
+                InputProps={{
+                  endAdornment: (
+                    <InputAdornment position="end">
+                      <IconButton onClick={toggleShowPassword} edge="end">
+                        {showPassword ? <Visibility /> : <VisibilityOff />}
+                      </IconButton>
+                    </InputAdornment>
+                  ),
+                }}
               />
 
               {error && <Error>{error}</Error>}
@@ -197,11 +221,28 @@ const Login = ({ isUserAuthenticated }) => {
               />
               <TextField
                 variant="standard"
-                type="password"
+                type={showPassword ? "text" : "password"}
                 value={signup?.password || ""}
                 onChange={(e) => onInputChange(e)}
                 name="password"
                 label="Enter Password"
+                InputProps={{
+                  endAdornment: (
+                    <InputAdornment position="end">
+                      <IconButton onClick={toggleShowPassword} edge="end">
+                        {showPassword ? <Visibility /> : <VisibilityOff />}
+                      </IconButton>
+                    </InputAdornment>
+                  ),
+                }}
+              />
+              <TextField
+                variant="standard"
+                type={showPassword ? "text" : "password"}
+                value={signup?.confirmPassword || ""}
+                onChange={(e) => onInputChange(e)}
+                name="confirmPassword"
+                label="Enter Confirm Password"
               />
 
               {error && <Error>{error}</Error>}
@@ -217,191 +258,6 @@ const Login = ({ isUserAuthenticated }) => {
       </Component>
     </>
   );
-
-  //     <>
-  //       {account === "login" ? (
-  //         <section className="bg-gray-50 dark:bg-gray-900">
-  //           <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
-  //             <a
-  //               href="/login"
-  //               className="flex items-center mb-6 text-2xl font-semibold text-gray-900 dark:text-white"
-  //             >
-  //               <img className="w-8 h-8 mr-2" src={imageURL} alt="Login" />
-  //             </a>
-  //             <div className="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
-  //               <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
-  //                 <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
-  //                   Sign in to your account
-  //                 </h1>
-  //                 <form className="space-y-4 md:space-y-6" action="#">
-  //                   <div>
-  //                     <label
-  //                       for="Username"
-  //                       className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-  //                     >
-  //                       Enter Username
-  //                     </label>
-  //                     <input
-  //                       value={login.username || ""}
-  //                       onChange={(e) => onValueChange(e)}
-  //                       name="username"
-  //                       type="text"
-  //                       placeholder="Username"
-  //                       className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-  //                     />
-  //                   </div>
-  //                   <div>
-  //                     <label
-  //                       for="password"
-  //                       className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-  //                     >
-  //                       Enter Password
-  //                     </label>
-  //                     <input
-  //                       value={login.password || ""}
-  //                       onChange={(e) => onValueChange(e)}
-  //                       name="password"
-  //                       type="password"
-  //                       placeholder="••••••••"
-  //                       className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-  //                     />
-  //                   </div>
-
-  //                   {error && <h5>{error}</h5>}
-
-  //                   <div className="flex items-center justify-between">
-  //                     <div className="flex items-start"></div>
-  //                   </div>
-  //                   <button
-  //                     type="submit"
-  //                     className="w-full text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
-  //                     onClick={() => loginUser()}
-  //                   >
-  //                     Sign in
-  //                   </button>
-  //                   <button
-  //                     type="submit"
-  //                     className="w-full text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
-  //                     onClick={() => toggleSignup()}
-  //                   >
-  //                     Create An Account
-  //                   </button>
-  //                   <p className="text-sm font-light text-gray-500 dark:text-gray-400">
-  //                     Don’t have an account yet?{" "}
-  //                     <a
-  //                       href="/register"
-  //                       className="font-medium text-primary-600 hover:underline dark:text-primary-500"
-  //                     >
-  //                       Register
-  //                     </a>
-  //                   </p>
-  //                 </form>
-  //               </div>
-  //             </div>
-  //           </div>
-  //         </section>
-  //       ) : (
-  //         <section className="bg-gray-50 dark:bg-gray-900">
-  //           <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
-  //             <a
-  //               href="/login"
-  //               className="flex items-center mb-6 text-2xl font-semibold text-gray-900 dark:text-white"
-  //             >
-  //               <img className="w-8 h-8 mr-2" src={imageURL} alt="Logo" />
-  //             </a>
-  //             <div className="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
-  //               <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
-  //                 <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
-  //                   Sign in to your account
-  //                 </h1>
-  //                 <form className="space-y-4 md:space-y-6" action="#">
-  //                   <div>
-  //                     <label
-  //                       for="email"
-  //                       className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-  //                     >
-  //                       Enter Name
-  //                     </label>
-  //                     <input
-  //                       value={signup?.name || ""}
-  //                       onChange={(e) => onInputChange(e)}
-  //                       name="name"
-  //                       placeholder="name"
-  //                       type="text"
-  //                       className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-  //                     />
-  //                   </div>
-  //                   <div>
-  //                     <label
-  //                       for="email"
-  //                       className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-  //                     >
-  //                       Enter Username
-  //                     </label>
-  //                     <input
-  //                       value={signup?.username || ""}
-  //                       onChange={(e) => onInputChange(e)}
-  //                       name="username"
-  //                       placeholder="username"
-  //                       type="text"
-  //                       className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-  //                     />
-  //                   </div>
-  //                   <div>
-  //                     <label
-  //                       for="password"
-  //                       className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-  //                     >
-  //                       Enter Password
-  //                     </label>
-  //                     <input
-  //                       value={signup?.password || ""}
-  //                       onChange={(e) => onInputChange(e)}
-  //                       name="password"
-  //                       type="password"
-  //                       placeholder="••••••••"
-  //                       className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-  //                     />
-  //                   </div>
-
-  //                   {error && <h5>{error}</h5>}
-
-  //                   <div className="flex items-center justify-between">
-  //                     <div className="flex items-start"></div>
-  //                   </div>
-  //                   <button
-  //                     type="submit"
-  //                     className="w-full text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
-  //                     onClick={() => signupUser()}
-  //                   >
-  //                     Signup
-  //                   </button>
-  //                   {/* <button
-  //                     type="submit"
-  //                     className="w-full text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
-  //                     onClick={() => toggleSignup()}
-  //                   >
-  //                     Signup
-  //                   </button> */}
-  //                   <p className="text-sm font-light text-gray-500 dark:text-gray-400">
-  //                     Already have an account..?{""}
-  //                     <a
-  //                       href="/login"
-  //                       onClick={() => toggleSignup()}
-  //                       className="font-medium text-primary-600 hover:underline dark:text-primary-500"
-  //                     >
-  //                       Sign In
-  //                     </a>
-  //                   </p>
-  //                 </form>
-  //               </div>
-  //             </div>
-  //           </div>
-  //         </section>
-  //       )}
-  //     </>
-  //   );
-  // };
 };
 
 export default Login;

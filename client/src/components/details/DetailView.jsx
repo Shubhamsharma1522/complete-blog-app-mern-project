@@ -1,32 +1,31 @@
-import { useState, useEffect, useContext } from "react";
-
+import React, { useState, useEffect, useContext } from "react";
 import { Box, Typography, styled } from "@mui/material";
 import { Delete, Edit } from "@mui/icons-material";
 import { Link, useNavigate, useParams } from "react-router-dom";
-
 import { API } from "../../service/api";
-
 import { DataContext } from "../../context/DataProvider";
-
-// components
 import Comments from "./comments/Comments";
 
-// const Container = styled(Box)(({ theme }) => ({
-//   margin: "50px 100px",
-//   [theme.breakpoints.down("md")]: {
-//     margin: 0,
-//   },
-// }));
+const DetailContainer = styled(Box)({
+  maxWidth: "1100px",
+  margin: "0 auto",
+  padding: "20px",
+});
 
-// const Image = styled("img")({
-//   border: "1px solid black",
-//   width: "100%",
-//   height: "50vh",
-//   objectFit: "cover",
-// });
+const ImageContainer = styled(Box)({
+  position: "relative",
+  overflow: "hidden",
+  borderRadius: "8px",
+});
+
+const BlogImage = styled("img")({
+  width: "100%",
+  height: "auto",
+  objectFit: "cover",
+});
 
 const EditIcon = styled(Edit)`
-  size: large;
+  font-size: 30px;
   margin: 5px;
   padding: 5px;
   border: 1px solid #878787;
@@ -34,43 +33,34 @@ const EditIcon = styled(Edit)`
 `;
 
 const DeleteIcon = styled(Delete)`
+  font-size: 30px;
   margin: 5px;
   padding: 5px;
   border: 1px solid #878787;
   border-radius: 10px;
 `;
 
-// const Heading = styled(Typography)`
-//   background: orange;
-//   font-size: 38px;
-//   font-weight: 600;
-//   text-align: center;
-//   margin: 50px 0 10px 0;
-//   word-break: break-word;
-// `;
-
-const Author = styled(Box)(({ theme }) => ({
+const AuthorInfo = styled(Box)({
   backgroundColor: "gray",
   color: "#fff",
   margin: "20px 0",
   display: "flex",
-  [theme.breakpoints.down("sm")]: {
-    display: "block",
-  },
-}));
+  alignItems: "center",
+  justifyContent: "space-between",
+  padding: "10px",
+  borderRadius: "8px",
+});
 
-const Description = styled(Typography)`
-  // border: 1px solid black;
-  background: white;
-  word-break: break-word;
-`;
+const DetailText = styled(Typography)({
+  backgroundColor: "white",
+  padding: "20px",
+  borderRadius: "8px",
+});
 
 const DetailView = () => {
   const [post, setPost] = useState({});
-
   const { id } = useParams();
   const { account } = useContext(DataContext);
-
   const navigate = useNavigate();
 
   const url = post.picture
@@ -104,90 +94,47 @@ const DetailView = () => {
   };
 
   return (
-    // <Container>
-    //   <Image src={post.picture || url} alt="post" />
-    //   <Box style={{ float: "right" }}>
-    //     {account.username === post.username && (
-    //       <>
-    //         <Link to={`/update/${post._id}`}>
-    //           <EditIcon color="primary" />
-    //         </Link>
-    //         <DeleteIcon onClick={() => deleteBlog()} color="error" />
-    //       </>
-    //     )}
-    //   </Box>
-    //   <Heading>{post.title}</Heading>
+    <DetailContainer>
+      <ImageContainer>
+        <BlogImage src={post.picture || url} alt="post" />
+        {account.username === post.username && (
+          <Box
+            style={{
+              position: "absolute",
+              top: "10px",
+              right: "10px",
+              display: "flex",
+            }}
+          >
+            <Link to={`/update/${post._id}`}>
+              <EditIcon color="primary" />
+            </Link>
+            <DeleteIcon onClick={() => deleteBlog()} color="error" />
+          </Box>
+        )}
+      </ImageContainer>
 
-    //   <Author>
-    //     <Link
-    //       to={`/?username=${post.username}`}
-    //       style={{ textDecoration: "none", color: "inherit" }}
-    //     >
-    //       <Typography>
-    //         Author:{" "}
-    //         <Box component="span" style={{ fontWeight: 600 }}>
-    //           {post.username}
-    //         </Box>
-    //       </Typography>
-    //     </Link>
-    //     <Typography style={{ marginLeft: "auto" }}>
-    //       {new Date(post.createdDate).toDateString()}
-    //     </Typography>
-    //   </Author>
+      <AuthorInfo>
+        <Link
+          to={`/?username=${post.username}`}
+          style={{ textDecoration: "none", color: "inherit" }}
+        >
+          <Typography>
+            Author: <strong>{post.username}</strong>
+          </Typography>
+        </Link>
+        <Typography>{new Date(post.createdDate).toDateString()}</Typography>
+      </AuthorInfo>
 
-    //   <Description>{post.description}</Description>
-    //   <Comments post={post} />
-    // </Container>
+      <DetailText>
+        <Typography variant="h2" gutterBottom>
+          {post.title}
+        </Typography>
+        <Typography>{post.description}</Typography>
+      </DetailText>
 
-    <>
-      <div className="py-16 bg-white">
-        <div className="container m-auto px-6 text-gray-600 md:px-12 xl:px-6">
-          <div className="space-y-6 md:space-y-0 md:flex md:gap-6 lg:items-center lg:gap-12">
-            <div className="md:5/12 lg:w-5/12">
-              <img src={post.picture || url} alt="post" />
-              <Box style={{ float: "right" }}>
-                {account.username === post.username && (
-                  <>
-                    <Link to={`/update/${post._id}`}>
-                      <EditIcon sx={{ fontSize: 30 }} color="primary" />
-                    </Link>
-                    <DeleteIcon
-                      sx={{ fontSize: 30 }}
-                      onClick={() => deleteBlog()}
-                      color="error"
-                    />
-                  </>
-                )}
-              </Box>
-            </div>
-            <div className="md:7/12 lg:w-6/12">
-              <h2 className="text-2xl text-gray-900 font-bold md:text-4xl">
-                {post.title}
-              </h2>
-              <Author>
-                <Link
-                  to={`/?username=${post.username}`}
-                  style={{ textDecoration: "none", color: "inherit" }}
-                >
-                  <Typography>
-                    Author:{" "}
-                    <Box component="span" style={{ fontWeight: 600 }}>
-                      {post.username}
-                    </Box>
-                  </Typography>
-                </Link>
-                <Typography style={{ marginLeft: "auto" }}>
-                  {new Date(post.createdDate).toDateString()}
-                </Typography>
-              </Author>
-
-              <Description>{post.description}</Description>
-            </div>
-          </div>
-        </div>
-        <Comments post={post} />
-      </div>
-    </>
+      <Comments post={post} />
+    </DetailContainer>
   );
 };
 

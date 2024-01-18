@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useContext } from "react";
-
 import {
   styled,
   Box,
@@ -7,6 +6,7 @@ import {
   Button,
   InputBase,
   FormControl,
+  Typography,
 } from "@mui/material";
 import { AddCircle as Add } from "@mui/icons-material";
 import { useNavigate, useLocation } from "react-router-dom";
@@ -15,9 +15,11 @@ import { API } from "../../service/api";
 import { DataContext } from "../../context/DataProvider";
 
 const Container = styled(Box)(({ theme }) => ({
-  margin: "50px 100px",
+  margin: "50px auto",
+  padding: "10px",
+  maxWidth: "800px",
   [theme.breakpoints.down("md")]: {
-    margin: 0,
+    margin: "10px",
   },
 }));
 
@@ -25,53 +27,51 @@ const Image = styled("img")({
   width: "100%",
   height: "50vh",
   objectFit: "cover",
+  marginBottom: "20px",
 });
 
-const StyledFormControl = styled(FormControl)`
-  margin-top: 10px;
-  display: flex;
-  flex-direction: row;
-`;
+const StyledFormControl = styled(FormControl)({
+  marginTop: "10px",
+  display: "flex",
+  flexDirection: "row",
+  alignItems: "center",
+});
 
-const InputTextField = styled(InputBase)`
-  flex: 1;
-  margin: 0 30px;
-  font-size: 25px;
-`;
+const InputTextField = styled(InputBase)({
+  flex: 1,
+  margin: "0 20px",
+  fontSize: "18px",
+});
 
-const Textarea = styled(TextareaAutosize)`
-  width: 100%;
-  margin-top: 50px;
-  font-size: 18px;
-  border: 1px solid #878787;
-  &:focus-visible {
-    outline: none;
-  }
-`;
+const StyledButton = styled(Button)({
+  width: "15%",
+  color: "white",
+  borderRadius: "10px",
+  textTransform: "none",
+});
 
-const StyledButton = styled(Button)`
-  width: 15%;
-  color: black;
-  border: 1px solid black;
-  border-radius: 10px;
-  text-transform: none;
-  background: #fff;
-`;
-
-const initialPost = {
-  title: "",
-  description: "",
-  picture: "",
-  username: "",
-  categories: "",
-  createdDate: new Date(),
-};
+const Textarea = styled(TextareaAutosize)({
+  width: "100%",
+  marginTop: "20px",
+  fontSize: "16px",
+  border: "1px solid #878787",
+  padding: "10px",
+  borderRadius: "5px",
+  outline: "none",
+});
 
 const CreatePost = () => {
   const location = useLocation();
   const navigate = useNavigate();
 
-  const [post, setPost] = useState(initialPost);
+  const [post, setPost] = useState({
+    title: "",
+    description: "",
+    picture: "",
+    username: "",
+    categories: "",
+    createdDate: new Date(),
+  });
   const [file, setFile] = useState("");
   const { account } = useContext(DataContext);
 
@@ -82,24 +82,8 @@ const CreatePost = () => {
     : "https://images.unsplash.com/photo-1543128639-4cb7e6eeef1b?ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8bGFwdG9wJTIwc2V0dXB8ZW58MHx8MHx8&ixlib=rb-1.2.1&w=1000&q=80";
 
   useEffect(() => {
-    // const getImage = async () => {
-    //   if (file) {
-    //     const data = {};
-    //     data.name = file.name;
-    //     data.file = file;
-    //     data.test = "test";
-
-    //     //API call
-    //     console.log(data, typeof file, "data upload file");
-    //     const response = await API.uploadFile(data);
-    //     post.picture = response.data;
-    //   }
-    // };
-
-    // getImage();
     post.categories = location.search?.split("=")[1] || "All";
     post.username = account.username;
-    // setFile(post?.picture || "");
   }, [account?.username, location?.search, post]);
 
   const handleChange = (e) => {
@@ -123,17 +107,21 @@ const CreatePost = () => {
   const handleImageChange = (e) => {
     const file = e.target.files[0];
 
-    const Reader = new FileReader();
-    Reader.readAsDataURL(file);
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
 
-    Reader.onload = () => {
-      if (Reader.readyState === 2) {
-        setFile(Reader.result);
+    reader.onload = () => {
+      if (reader.readyState === 2) {
+        setFile(reader.result);
       }
     };
   };
+
   return (
     <Container>
+      <Typography variant="h4" gutterBottom>
+        Create a New Blog
+      </Typography>
       <Image src={url} alt="post" />
 
       <StyledFormControl>
@@ -154,7 +142,7 @@ const CreatePost = () => {
         <StyledButton
           onClick={() => savePost()}
           variant="contained"
-          // color="error"
+          color="primary"
         >
           Publish
         </StyledButton>

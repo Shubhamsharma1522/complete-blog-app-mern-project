@@ -1,25 +1,21 @@
 import React, { useState, useEffect, useContext } from "react";
-
 import {
-  styled,
   Box,
-  TextareaAutosize,
   Button,
+  styled,
+  TextareaAutosize,
   InputBase,
-  FormControl,
 } from "@mui/material";
 import { AddCircle as Add } from "@mui/icons-material";
 import { useNavigate, useLocation, useParams } from "react-router-dom";
-
 import { API } from "../../service/api";
 import { DataContext } from "../../context/DataProvider";
 
-const Container = styled(Box)(({ theme }) => ({
-  margin: "50px 100px",
-  [theme.breakpoints.down("md")]: {
-    margin: 0,
-  },
-}));
+const Container = styled(Box)({
+  margin: "50px auto",
+  padding: "0 20px",
+  maxWidth: "800px",
+});
 
 const Image = styled("img")({
   width: "100%",
@@ -27,27 +23,35 @@ const Image = styled("img")({
   objectFit: "cover",
 });
 
-const StyledFormControl = styled(FormControl)`
-  margin-top: 10px;
-  display: flex;
-  flex-direction: row;
-`;
+const FormControl = styled("div")({
+  marginTop: "10px",
+  display: "flex",
+  flexDirection: "row",
+});
 
-const InputTextField = styled(InputBase)`
-  flex: 1;
-  margin: 0 30px;
-  font-size: 25px;
-`;
+const InputTextField = styled(InputBase)({
+  flex: 1,
+  margin: "0 10px",
+  fontSize: "1.5rem",
+});
 
-const Textarea = styled(TextareaAutosize)`
-  width: 100%;
-  border: 1px solid #878787;
-  margin-top: 50px;
-  font-size: 18px;
-  &:focus-visible {
-    outline: none;
-  }
-`;
+const StyledTextarea = styled(TextareaAutosize)({
+  width: "100%",
+  border: "1px solid #878787",
+  marginTop: "20px",
+  fontSize: "1rem",
+  padding: "10px",
+  borderRadius: "8px",
+  "&:focus-visible": {
+    outline: "none",
+  },
+});
+
+const UpdateButton = styled(Button)({
+  marginTop: "20px",
+  padding: "10px 20px",
+  fontSize: ".8rem",
+});
 
 const initialPost = {
   title: "",
@@ -62,7 +66,6 @@ const Update = () => {
   const [post, setPost] = useState(initialPost);
   const [file, setFile] = useState("");
   const { account } = useContext(DataContext);
-
   const location = useLocation();
   const navigate = useNavigate();
   const { id } = useParams();
@@ -89,24 +92,8 @@ const Update = () => {
   }, [id]);
 
   useEffect(() => {
-    // const getImage = async () => {
-    //   if (file) {
-    //     const data = {};
-    //     data.name = file.name;
-    //     data.file = file;
-    //     data.test = "test";
-
-    //     //API call
-    //     console.log(data, typeof file, "data upload file");
-    //     const response = await API.uploadFile(data);
-    //     post.picture = response.data;
-    //   }
-    // };
-
-    // getImage();
     post.categories = location.search?.split("=")[1] || "All";
     post.username = account.username;
-    // setFile(post?.picture || "");
   }, [account?.username, location?.search, post]);
 
   const handleChange = (e) => {
@@ -141,7 +128,7 @@ const Update = () => {
     <Container>
       <Image src={url} alt="post" />
 
-      <StyledFormControl>
+      <FormControl>
         <label htmlFor="fileInput">
           <Add fontSize="large" color="action" />
         </label>
@@ -157,16 +144,16 @@ const Update = () => {
           onChange={(e) => handleChange(e)}
           name="title"
         />
-        <Button
+        <UpdateButton
           onClick={() => updateBlogPost()}
           variant="contained"
           color="primary"
         >
           Update
-        </Button>
-      </StyledFormControl>
+        </UpdateButton>
+      </FormControl>
 
-      <Textarea
+      <StyledTextarea
         minRows={5}
         placeholder="Tell your story..."
         onChange={(e) => handleChange(e)}

@@ -1,5 +1,5 @@
 import React from "react";
-import { Box, Grid, Typography, styled } from "@mui/material";
+import { Box, Typography, styled } from "@mui/material";
 
 const Image = styled(Box)`
   width: 100%;
@@ -10,23 +10,29 @@ const Image = styled(Box)`
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  padding: 20px; /* Added padding for better spacing on smaller screens */
+  text-align: center; /* Center-align text */
 `;
 
 const Heading = styled(Typography)`
-  font-size: 70px;
+  font-size: 3rem; /* Adjusted font size for better readability */
   color: #ffffff;
   line-height: 1;
+  margin-bottom: 1px; /* Added margin for better spacing */
 `;
 
 const SubHeading = styled(Typography)`
-  font-size: 20px;
+  font-size: 1rem; /* Adjusted font size for better readability */
   background: #ffffff;
+  padding: 10px; /* Added padding for better spacing */
+  margin-bottom: 10px; /* Added margin for better spacing */
 `;
+
 const SubSubHeading = styled(Typography)`
-  align-item: center;
-  font-size: 20px;
+  font-size: 1rem; /* Adjusted font size for better readability */
   background: #000;
   color: #ffffff;
+  padding: 10px; /* Added padding for better spacing */
 `;
 
 const Banner = () => {
@@ -34,7 +40,6 @@ const Banner = () => {
     <Image>
       <Heading>BLOG</Heading>
       <SubHeading>Write Your Own Thoughts</SubHeading>
-      <br />
       <SubSubHeading>The Only Thing That Describes Your Thoughts</SubSubHeading>
     </Image>
   );

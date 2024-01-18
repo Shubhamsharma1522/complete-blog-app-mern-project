@@ -1,8 +1,8 @@
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 import { Box, Grid } from "@mui/material";
 
-import DataProvider, { DataContext } from "./context/DataProvider";
+import DataProvider from "./context/DataProvider";
 
 import {
   BrowserRouter,
@@ -10,7 +10,7 @@ import {
   Route,
   Navigate,
   Outlet,
-  useNavigate,
+  // useNavigate,
 } from "react-router-dom";
 
 //componenets
@@ -55,7 +55,7 @@ function App() {
   return (
     <DataProvider>
       <BrowserRouter>
-        <Box style={{ marginTop: 64 }}>
+        <Box>
           <Routes>
             <Route
               path="/login"
