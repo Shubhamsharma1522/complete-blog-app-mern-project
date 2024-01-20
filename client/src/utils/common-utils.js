@@ -20,3 +20,11 @@ export const getType = (value, body) => {
   }
   return {};
 };
+
+export const BUTTON_FLAGS = {
+  SIGN_UP: "SIGN_UP",
+  LOG_IN: "LOG_IN",
+  PUBLISH_POST: "PUBLISH_POST",
+  UPDATE_POST: "UPDATE_POST",
+  LOAD_POST: "LOAD_POST",
+};

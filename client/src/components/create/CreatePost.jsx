@@ -7,12 +7,14 @@ import {
   InputBase,
   FormControl,
   Typography,
+  CircularProgress,
 } from "@mui/material";
 import { AddCircle as Add } from "@mui/icons-material";
 import { useNavigate, useLocation } from "react-router-dom";
 
 import { API } from "../../service/api";
 import { DataContext } from "../../context/DataProvider";
+import { BUTTON_FLAGS } from "../../utils/common-utils";
 
 const Container = styled(Box)(({ theme }) => ({
   margin: "50px auto",
@@ -63,6 +65,7 @@ const Textarea = styled(TextareaAutosize)({
 const CreatePost = () => {
   const location = useLocation();
   const navigate = useNavigate();
+  const { loading, setLoading } = useContext(DataContext);
 
   const [post, setPost] = useState({
     title: "",
@@ -92,6 +95,7 @@ const CreatePost = () => {
 
   const savePost = async () => {
     try {
+      setLoading({ status: true, buttonFlag: BUTTON_FLAGS.PUBLISH_POST });
       let response = await API.createPost({
         ...post,
         picture: file || post?.picture,
@@ -99,8 +103,10 @@ const CreatePost = () => {
       if (response.isSuccess) {
         navigate("/");
       }
+      setLoading({ status: false, buttonFlag: BUTTON_FLAGS.PUBLISH_POST });
     } catch (error) {
       console.log(error);
+      setLoading({ status: false, buttonFlag: BUTTON_FLAGS.PUBLISH_POST });
     }
   };
 
@@ -143,8 +149,19 @@ const CreatePost = () => {
           onClick={() => savePost()}
           variant="contained"
           color="primary"
+          disabled={
+            loading &&
+            loading.status &&
+            loading.buttonFlag === BUTTON_FLAGS.PUBLISH_POST
+          }
         >
-          Publish
+          {loading &&
+          loading.status &&
+          loading.buttonFlag === BUTTON_FLAGS.PUBLISH_POST ? (
+            <CircularProgress />
+          ) : (
+            "Publish"
+          )}
         </StyledButton>
       </StyledFormControl>
 

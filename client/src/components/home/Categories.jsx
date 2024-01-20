@@ -1,74 +1,76 @@
 import React from "react";
-import { Link, useSearchParams } from "react-router-dom";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import {
-  Table,
-  TableHead,
-  TableRow,
-  TableCell,
-  TableBody,
-  styled,
+  FormControl,
+  InputLabel,
+  Select,
+  OutlinedInput,
+  MenuItem,
 } from "@mui/material";
 import { categories } from "../../constants/data";
 
-const StyledTable = styled(Table)`
-  border: 1px solid rgba(224, 224, 224, 1);
-`;
-
-const StyledLink = styled(Link)`
-  text-decoration: none;
-  color: inherit;
-`;
-
 const Categories = () => {
   const [searchParams] = useSearchParams();
+  const [selectedCategory, setSelectedCategory] =
+    React.useState("All Catagories");
   const category = searchParams.get("category");
+  const navigate = useNavigate();
+
+  const ITEM_HEIGHT = 48;
+  const ITEM_PADDING_TOP = 8;
+  const MenuProps = {
+    PaperProps: {
+      style: {
+        maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
+        width: 250,
+      },
+    },
+  };
 
   return (
     <>
       <div className="md:flex">
-        <div className="p-5 bg-gray-50 text-medium text-gray-500 dark:text-gray-400 dark:bg-white rounded-lg w-full container mx-auto  flex flex-wrap flex-col md:flex-row items-center">
+        <div>
           <Link
             to={`/create?category=${category || ""}`}
             type="button"
-            className="text-blue-700 hover:text-white border-b-2 border-blue-700 hover:bg-blue-800 focus:ring-2 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 dark:border-black dark:text-black dark:hover:text-black dark:hover:bg-white "
+            className="m-10 flex justify-center bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded"
           >
-            Create Blog
+            CREATE BLOG
           </Link>
-          <StyledTable>
-            <TableHead>
-              <TableRow>
-                <TableCell>
-                  <StyledLink className="hover:text-red-600" to={"/"}>
-                    <button
-                      type="button"
-                      className="container mx-auto flex flex-wrap p-5 flex-col md:flex-row items-center text-gray-900 hover:text-black border-x-2 border-gray-800 hover:bg-white focus:ring-2 focus:outline-none  font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2  dark:text-black dark:hover:text-black "
-                    >
-                      All categories
-                    </button>
-                  </StyledLink>
-                </TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {categories.map((category) => (
-                <TableRow key={category.id}>
-                  <TableCell>
-                    <StyledLink
-                      className="hover:text-red-600"
-                      to={`/?category=${category.type}`}
-                    >
-                      <button
-                        type="button"
-                        className="container mx-auto flex flex-wrap p-5 flex-col md:flex-row items-center text-gray-900 hover:text-black border-b-2 border-gray-800 hover:bg-white focus:ring-2 focus:outline-none  font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2  dark:text-black dark:hover:text-black "
-                      >
-                        {category.type}
-                      </button>
-                    </StyledLink>
-                  </TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </StyledTable>
+
+          <div className="flex justify-center">
+            <FormControl sx={{ m: 1, width: 230 }}>
+              <InputLabel id="demo-multiple-name-label">Categories</InputLabel>
+
+              <Select
+                id="demo-multiple-name-label"
+                input={<OutlinedInput label="Catagories" />}
+                MenuProps={MenuProps}
+                value={selectedCategory}
+                defaultValue={"Catagories"}
+              >
+                {categories.map((category) => (
+                  <MenuItem
+                    key={category.id}
+                    value={category.type}
+                    onClick={() => {
+                      setSelectedCategory(category.type);
+                      navigate(
+                        `/?category=${
+                          category.type === "All Catagories"
+                            ? ""
+                            : category.type
+                        }`
+                      );
+                    }}
+                  >
+                    {category.type}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+          </div>
         </div>
       </div>
     </>

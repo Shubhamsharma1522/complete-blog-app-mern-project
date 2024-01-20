@@ -5,11 +5,13 @@ import {
   styled,
   TextareaAutosize,
   InputBase,
+  CircularProgress,
 } from "@mui/material";
 import { AddCircle as Add } from "@mui/icons-material";
 import { useNavigate, useLocation, useParams } from "react-router-dom";
 import { API } from "../../service/api";
 import { DataContext } from "../../context/DataProvider";
+import { BUTTON_FLAGS } from "../../utils/common-utils";
 
 const Container = styled(Box)({
   margin: "50px auto",
@@ -51,6 +53,8 @@ const UpdateButton = styled(Button)({
   marginTop: "20px",
   padding: "10px 20px",
   fontSize: ".8rem",
+  minWidth: "130px",
+  height: "40px",
 });
 
 const initialPost = {
@@ -65,7 +69,7 @@ const initialPost = {
 const Update = () => {
   const [post, setPost] = useState(initialPost);
   const [file, setFile] = useState("");
-  const { account } = useContext(DataContext);
+  const { account, loading, setLoading } = useContext(DataContext);
   const location = useLocation();
   const navigate = useNavigate();
   const { id } = useParams();
@@ -76,19 +80,23 @@ const Update = () => {
     ? post.picture
     : "https://images.unsplash.com/photo-1543128639-4cb7e6eeef1b?ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8bGFwdG9wJTIwc2V0dXB8ZW58MHx8MHx8&ixlib=rb-1.2.1&w=1000&q=80";
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        let response = await API.getPostById(id);
-        if (response.isSuccess) {
-          setPost(response.data);
-        }
-      } catch (error) {
-        console.log(error);
+  const fetchData = async () => {
+    try {
+      setLoading({ status: true, buttonFlag: BUTTON_FLAGS.LOAD_POST });
+      let response = await API.getPostById(id);
+      if (response.isSuccess) {
+        setPost(response.data);
       }
-    };
-
-    fetchData();
+      setLoading({ status: false, buttonFlag: BUTTON_FLAGS.LOAD_POST });
+    } catch (error) {
+      console.log(error);
+      setLoading({ status: false, buttonFlag: BUTTON_FLAGS.LOAD_POST });
+    }
+  };
+  useEffect(() => {
+    if (id) {
+      fetchData();
+    }
   }, [id]);
 
   useEffect(() => {
@@ -115,51 +123,75 @@ const Update = () => {
 
   const updateBlogPost = async () => {
     try {
+      setLoading({ status: true, buttonFlag: BUTTON_FLAGS.UPDATE_POST });
       let response = await API.updatePost({ ...post, picture: file });
       if (response.isSuccess) {
         navigate(`/details/${id}`);
       }
+      setLoading({ status: false, buttonFlag: BUTTON_FLAGS.UPDATE_POST });
     } catch (error) {
       console.log(error);
+      setLoading({ status: false, buttonFlag: BUTTON_FLAGS.UPDATE_POST });
     }
   };
 
   return (
     <Container>
-      <Image src={url} alt="post" />
+      {loading &&
+      loading.status &&
+      loading.buttonFlag === BUTTON_FLAGS.LOAD_POST ? (
+        <div className="flex justify-center items-center h-[calc(100vh-415px)]">
+          <CircularProgress />
+        </div>
+      ) : (
+        <>
+          <Image src={url} alt="post" />
 
-      <FormControl>
-        <label htmlFor="fileInput">
-          <Add fontSize="large" color="action" />
-        </label>
-        <input
-          type="file"
-          id="fileInput"
-          style={{ display: "none" }}
-          onChange={handleImageChange}
-        />
-        <InputTextField
-          placeholder="Title"
-          value={post.title}
-          onChange={(e) => handleChange(e)}
-          name="title"
-        />
-        <UpdateButton
-          onClick={() => updateBlogPost()}
-          variant="contained"
-          color="primary"
-        >
-          Update
-        </UpdateButton>
-      </FormControl>
+          <FormControl>
+            <label htmlFor="fileInput">
+              <Add fontSize="large" color="action" />
+            </label>
+            <input
+              type="file"
+              id="fileInput"
+              style={{ display: "none" }}
+              onChange={handleImageChange}
+            />
+            <InputTextField
+              placeholder="Title"
+              value={post.title}
+              onChange={(e) => handleChange(e)}
+              name="title"
+            />
+            <UpdateButton
+              onClick={() => updateBlogPost()}
+              variant="contained"
+              color="primary"
+              disabled={
+                loading &&
+                loading.status &&
+                loading.buttonFlag === BUTTON_FLAGS.UPDATE_POST
+              }
+            >
+              {loading &&
+              loading.status &&
+              loading.buttonFlag === BUTTON_FLAGS.UPDATE_POST ? (
+                <CircularProgress />
+              ) : (
+                "Update"
+              )}
+            </UpdateButton>
+          </FormControl>
 
-      <StyledTextarea
-        minRows={5}
-        placeholder="Tell your story..."
-        onChange={(e) => handleChange(e)}
-        name="description"
-        value={post.description}
-      />
+          <StyledTextarea
+            minRows={5}
+            placeholder="Tell your story..."
+            onChange={(e) => handleChange(e)}
+            name="description"
+            value={post.description}
+          />
+        </>
+      )}
     </Container>
   );
 };

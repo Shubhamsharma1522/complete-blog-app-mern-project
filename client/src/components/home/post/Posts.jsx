@@ -159,17 +159,10 @@ const Posts = () => {
     <>
       {loading ? (
         // Display a loader while posts are being fetched
-        <Box
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            height: "30vh",
-          }}
-        >
+        <div className="flex justify-center items-center h-[calc(100vh-415px)] w-full">
           <CircularProgress />
-        </Box>
-      ) : posts && posts.length > 0 ? (
+        </div>
+      ) : posts && posts?.length > 0 ? (
         posts.map((post) => (
           <Grid item lg={3} sm={4} xs={12} key={post._id}>
             <Link

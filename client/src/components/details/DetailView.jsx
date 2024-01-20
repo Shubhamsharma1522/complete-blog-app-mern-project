@@ -1,10 +1,11 @@
 import React, { useState, useEffect, useContext } from "react";
-import { Box, Typography, styled } from "@mui/material";
+import { Box, CircularProgress, Typography, styled } from "@mui/material";
 import { Delete, Edit } from "@mui/icons-material";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { API } from "../../service/api";
 import { DataContext } from "../../context/DataProvider";
 import Comments from "./comments/Comments";
+import { BUTTON_FLAGS } from "../../utils/common-utils";
 
 const DetailContainer = styled(Box)({
   maxWidth: "1100px",
@@ -60,7 +61,7 @@ const DetailText = styled(Typography)({
 const DetailView = () => {
   const [post, setPost] = useState({});
   const { id } = useParams();
-  const { account } = useContext(DataContext);
+  const { account, loading, setLoading } = useContext(DataContext);
   const navigate = useNavigate();
 
   const url = post.picture
@@ -70,12 +71,15 @@ const DetailView = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
+        setLoading({ status: true, buttonFlag: BUTTON_FLAGS.LOAD_POST });
         let response = await API.getPostById(id);
         if (response.isSuccess) {
           setPost(response.data);
         }
+        setLoading({ status: false, buttonFlag: BUTTON_FLAGS.LOAD_POST });
       } catch (error) {
         console.log(error);
+        setLoading({ status: false, buttonFlag: BUTTON_FLAGS.LOAD_POST });
       }
     };
 
@@ -95,45 +99,55 @@ const DetailView = () => {
 
   return (
     <DetailContainer>
-      <ImageContainer>
-        <BlogImage src={post.picture || url} alt="post" />
-        {account.username === post.username && (
-          <Box
-            style={{
-              position: "absolute",
-              top: "10px",
-              right: "10px",
-              display: "flex",
-            }}
-          >
-            <Link to={`/update/${post._id}`}>
-              <EditIcon color="primary" />
+      {loading &&
+      loading.status &&
+      loading.buttonFlag === BUTTON_FLAGS.LOAD_POST ? (
+        <div className="flex justify-center items-center h-[calc(100vh-415px)]">
+          <CircularProgress />
+        </div>
+      ) : (
+        <>
+          <ImageContainer>
+            <BlogImage src={post.picture || url} alt="post" />
+            {account.username === post.username && (
+              <Box
+                style={{
+                  position: "absolute",
+                  top: "10px",
+                  right: "10px",
+                  display: "flex",
+                }}
+              >
+                <Link to={`/update/${post._id}`}>
+                  <EditIcon color="primary" />
+                </Link>
+                <DeleteIcon onClick={() => deleteBlog()} color="error" />
+              </Box>
+            )}
+          </ImageContainer>
+
+          <AuthorInfo>
+            <Link
+              to={`/?username=${post.username}`}
+              style={{ textDecoration: "none", color: "inherit" }}
+            >
+              <Typography>
+                Author: <strong>{post.username}</strong>
+              </Typography>
             </Link>
-            <DeleteIcon onClick={() => deleteBlog()} color="error" />
-          </Box>
-        )}
-      </ImageContainer>
+            <Typography>{new Date(post.createdDate).toDateString()}</Typography>
+          </AuthorInfo>
 
-      <AuthorInfo>
-        <Link
-          to={`/?username=${post.username}`}
-          style={{ textDecoration: "none", color: "inherit" }}
-        >
-          <Typography>
-            Author: <strong>{post.username}</strong>
-          </Typography>
-        </Link>
-        <Typography>{new Date(post.createdDate).toDateString()}</Typography>
-      </AuthorInfo>
+          <DetailText>
+            <Typography variant="h2" gutterBottom>
+              {post.title}
+            </Typography>
+            <Typography>{post.description}</Typography>
+          </DetailText>
 
-      <DetailText>
-        <Typography variant="h2" gutterBottom>
-          {post.title}
-        </Typography>
-        <Typography>{post.description}</Typography>
-      </DetailText>
-
-      <Comments post={post} />
+          <Comments post={post} />
+        </>
+      )}
     </DetailContainer>
   );
 };

@@ -7,11 +7,13 @@ import {
   Typography,
   InputAdornment,
   IconButton,
+  CircularProgress,
 } from "@mui/material";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { API } from "../../service/api";
 import { useNavigate } from "react-router-dom";
 import { DataContext } from "../../context/DataProvider";
+import { BUTTON_FLAGS } from "../../utils/common-utils";
 // import Logout from "../path-to-Logout-component/Logout";
 
 const imageURL =
@@ -93,6 +95,7 @@ const Login = ({ isUserAuthenticated }) => {
   const [login, setLogin] = useState(loginInitialValues);
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState("");
+  const { loading, setLoading } = useContext(DataContext);
 
   const { setAccount } = useContext(DataContext);
   const navigate = useNavigate();
@@ -115,6 +118,7 @@ const Login = ({ isUserAuthenticated }) => {
 
   const signupUser = async () => {
     try {
+      setLoading({ status: true, buttonFlag: BUTTON_FLAGS.SIGN_UP });
       if (signup.password !== signup.confirmPassword) {
         setError("Password do not match");
         return;
@@ -125,8 +129,10 @@ const Login = ({ isUserAuthenticated }) => {
         setSignup(signupInitialValues);
         toggleAccount("login");
       }
+      setLoading({ status: false, buttonFlag: BUTTON_FLAGS.SIGN_UP });
     } catch (error) {
       setError("Something went wrong please try again later");
+      setLoading({ status: false, buttonFlag: BUTTON_FLAGS.SIGN_UP });
     }
   };
 
@@ -136,6 +142,7 @@ const Login = ({ isUserAuthenticated }) => {
 
   const loginUser = async () => {
     try {
+      setLoading({ status: true, buttonFlag: BUTTON_FLAGS.LOG_IN });
       let response = await API.userLogin(login);
       if (response.isSuccess) {
         setError("");
@@ -156,9 +163,11 @@ const Login = ({ isUserAuthenticated }) => {
 
         isUserAuthenticated(true);
         navigate("/");
+        setLoading({ status: false, buttonFlag: BUTTON_FLAGS.LOG_IN });
       }
     } catch (error) {
       setError("Something went wrong! Please try again later");
+      setLoading({ status: false, buttonFlag: BUTTON_FLAGS.LOG_IN });
     }
   };
 
@@ -203,8 +212,22 @@ const Login = ({ isUserAuthenticated }) => {
 
               {error && <Error>{error}</Error>}
 
-              <LoginButton variant="contained" onClick={() => loginUser()}>
-                Login
+              <LoginButton
+                variant="contained"
+                onClick={() => loginUser()}
+                disabled={
+                  loading &&
+                  loading.status &&
+                  loading.buttonFlag === BUTTON_FLAGS.LOG_IN
+                }
+              >
+                {loading &&
+                loading.status &&
+                loading.buttonFlag === BUTTON_FLAGS.LOG_IN ? (
+                  <CircularProgress />
+                ) : (
+                  "Log In"
+                )}
               </LoginButton>
               <Text style={{ textAlign: "center" }}>OR</Text>
               <SignupButton onClick={() => toggleSignup()}>
@@ -255,7 +278,22 @@ const Login = ({ isUserAuthenticated }) => {
 
               {error && <Error>{error}</Error>}
 
-              <SignupButton onClick={() => signupUser()}>Signup</SignupButton>
+              <SignupButton
+                onClick={() => signupUser()}
+                disabled={
+                  loading &&
+                  loading.status &&
+                  loading.buttonFlag === BUTTON_FLAGS.SIGN_UP
+                }
+              >
+                {loading &&
+                loading.status &&
+                loading.buttonFlag === BUTTON_FLAGS.SIGN_UP ? (
+                  <CircularProgress />
+                ) : (
+                  "Sign Up"
+                )}
+              </SignupButton>
               <Text style={{ textAlign: "center" }}>OR</Text>
               <LoginButton variant="contained" onClick={() => toggleSignup()}>
                 Already have an account
