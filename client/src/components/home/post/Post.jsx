@@ -2,11 +2,11 @@ import { styled, Box, Typography } from "@mui/material";
 import { addElipsis } from "../../../utils/common-utils";
 
 const Container = styled(Box)`
-  border: 1px solid black;
+  // border: 1px solid black;
   background: white;
   border-radius: 10px;
   margin: 10px;
-  height: 350px;
+  height: 300px;
   display: flex;
   align-items: center;
   flex-direction: column;
